@@ -2,8 +2,7 @@ package com.programming.productservice;
 
 import com.programming.productservice.dto.ProductRequest;
 import com.programming.productservice.repository.ProductRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Testcontainers
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DemoApplicationTests {
 
 	@Container
@@ -40,6 +40,7 @@ class DemoApplicationTests {
 		dynamicPropertyRegistry.add("spring.data.mongdb.url", mongoDBContainer::getReplicaSetUrl);
 	}
 	@Test
+	@Order(1)
 	void shouldCreateProduct() throws Exception {
 		ProductRequest productRequest = getProductRequest();
 		String stringProductRequest = objectMapper.writeValueAsString(productRequest);
@@ -49,6 +50,15 @@ class DemoApplicationTests {
 		).andExpect(status().isCreated());
 		Assertions.assertEquals(1,productRepository.findAll().size());
 	}
+
+//    @Test
+//	@Order(2)
+//	void testGetProduct() throws Exception {
+//		mockMvc.perform(
+//				MockMvcRequestBuilders.get("/api/product")
+//		).andExpect(status().isOk());
+//		Assertions.assertEquals(1,productRepository.findAll().size());
+//	}
 
 	private ProductRequest getProductRequest() {
 		return ProductRequest.builder()
