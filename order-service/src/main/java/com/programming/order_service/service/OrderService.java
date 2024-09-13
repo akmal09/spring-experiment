@@ -28,14 +28,10 @@ public class OrderService {
                 .map(this::mapToDto)
                 .toList();
 
+//        call inventory service and place order if prouct is in
+//        stock
         order.setOrderLineItemsList(orderLineItems);
-
-
-
-//        List<String> skuCodes = order.getOrderLineItemsList().stream()
-//                .map(OrderLineItems::getSkuCode)
-//                .toList();
-
+        orderRepository.save(order);
     }
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto){
