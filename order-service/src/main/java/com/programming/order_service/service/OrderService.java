@@ -22,7 +22,7 @@ import java.util.UUID;
 @Slf4j
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuider;
 
     public void placeOrder(OrderRequest orderRequest){
         Order order = new Order();
@@ -41,8 +41,8 @@ public class OrderService {
 //        call inventory service and place order if prouct is in
 //        stock
         order.setOrderLineItemsList(orderLineItems);
-        InventoryResponse[] inventoryResponses = webClient.get()
-                .uri("http://localhost:8082/api/inventory", uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
+        InventoryResponse[] inventoryResponses = webClientBuider.build().get()
+                .uri("http://inventory-service/api/inventory", uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
                         .retrieve()
                         .bodyToMono(InventoryResponse[].class)
                         .block();
