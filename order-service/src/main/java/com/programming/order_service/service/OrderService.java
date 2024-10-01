@@ -7,7 +7,6 @@ import com.programming.order_service.dto.OrderRequest;
 import com.programming.order_service.repository.OrderRepository;
 import com.programming.order_service.model.Order;
 import com.programming.order_service.model.OrderLineItems;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
